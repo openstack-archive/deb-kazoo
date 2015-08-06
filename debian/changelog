@@ -1,5 +1,46 @@
-kazoo (0+git20130102) unstable; urgency=low
+kazoo (2.2.1-1) unstable; urgency=medium
 
-  * Initial package.
+  * Adopting the package in the OpenStack PKG team, as per comments of Neils
+    in Neil Williams in the bug report below:
+    - Added VCS fields.
+  * New upstream release (Closes: #792503).
+  * Removed no-tag-build.patch applied upstream.
+  * Removed -doc package as the docs folder is gone from upstream.
+  * Removed X-Python-Version: >= 2.6 X-Python3-Version: >= 3.2, now useless.
+  * Added extend-diff-ignore = "^[^/]*[.]egg-info/" in d/source/options.
+  * Added a debian/gbp.conf.
+  * Standards-Version is now 3.9.6 (no changes).
 
- -- Neil Williams <neil@spladug.net>  Fri, 02 Jan 2013 23:20:03 -0800
+ -- Thomas Goirand <zigo@debian.org>  Wed, 15 Jul 2015 13:41:10 +0000
+
+kazoo (1.3.1-1) unstable; urgency=low
+
+  * New upstream release.
+  * Use pybuild.
+  * Add Python 3 support (Closes: #739482).
+  * Bumped standards version to 3.9.5. No changes needed.
+
+ -- Neil Williams <neil@spladug.net>  Wed, 19 Feb 2014 14:17:54 -0800
+
+kazoo (1.2.1-1) unstable; urgency=low
+
+  * New upstream release.
+  * Fix sphinx documentation build on clean systems (added
+    python-gevent to Build-Depends and patched config).
+  * Bumped standards version to 3.9.4. No changes needed.
+
+ -- Neil Williams <neil@spladug.net>  Mon, 26 Aug 2013 06:26:20 +0000
+
+kazoo (0.9-1) unstable; urgency=low
+
+  * New upstream release.
+  * Fix debian/copyright missing licenses for kazoo/tests/util.py and
+    kazoo/testing/common.py.
+
+ -- Neil Williams <neil@spladug.net>  Mon, 18 Mar 2013 16:46:39 -0700
+
+kazoo (0.8-1) unstable; urgency=low
+
+  * Initial package. (Closes: #696511)
+
+ -- Neil Williams <neil@spladug.net>  Fri, 21 Dec 2012 19:27:43 -0800

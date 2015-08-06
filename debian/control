@@ -1,50 +1,58 @@
 Source: kazoo
 Section: python
 Priority: optional
-Maintainer: Neil Williams <neil@spladug.net>
-Build-Depends: python-setuptools (>= 0.6b3),
-               python-all (>= 2.6.6-3),
-               debhelper (>= 8.0.0),
-               python-sphinx (>= 1.0.7+dfsg) | python3-sphinx,
-Standards-Version: 3.9.3
+Maintainer: PKG OpenStack <openstack-devel@lists.alioth.debian.org>
+Uploaders: Neil Williams <neil@spladug.net>, Thomas Goirand <zigo@debian.org>
+Build-Depends: debhelper (>= 8),
+               dh-python,
+               python-all,
+               python-setuptools,
+               python3-all,
+               python3-setuptools,
+               python-gevent,
+Standards-Version: 3.9.6
+Vcs-Browser: http://anonscm.debian.org/gitweb/?p=openstack/kazoo.git
+Vcs-Git: git://anonscm.debian.org/openstack/kazoo.git
 Homepage: https://kazoo.readthedocs.org
-X-Python-Version: >= 2.6
 
 Package: python-kazoo
 Architecture: all
 Depends: ${python:Depends}, ${misc:Depends}
-Description: higher level API to Apache Zookeeper for Python clients
+Suggests: python-kazoo-doc
+Description: higher level API to Apache Zookeeper (Python 2)
  Kazoo features:
  .
-  * Support for gevent 0.13 and gevent 1.0
-  * Unified asynchronous API for use with greenlets or threads
-  * Lock, Party, Election, and Partitioner recipe implementations (more
-    implementations are in development)
+  * A wide range of recipe implementations, like Lock, Election or Queue
   * Data and Children Watchers
-  * Integrated testing helpers for Zookeeper clusters
   * Simplified Zookeeper connection state tracking
+  * Unified asynchronous API for use with greenlets or threads
+  * Support for gevent 0.13 and gevent 1.0
+  * Support for Zookeeper 3.3 and 3.4 servers
+  * Integrated testing helpers for Zookeeper clusters
   * Pure-Python based implementation of the wire protocol, avoiding all the
     memory leaks, lacking features, and debugging madness of the C library
  .
  Kazoo is heavily inspired by Netflix Curator simplifications and helpers.
+ .
+ This is the Python 2 version of the package.
 
-Package: python-kazoo-doc
+Package: python3-kazoo
 Architecture: all
-Section: doc
-Depends: ${misc:Depends}, ${sphinxdoc:Depends}
-Description: API to Apache Zookeeper for Python clients. - API documentation
+Depends: ${python3:Depends}, ${misc:Depends}
+Suggests: python-kazoo-doc
+Description: higher level API to Apache Zookeeper (Python 3)
  Kazoo features:
  .
-  * Support for gevent 0.13 and gevent 1.0
-  * Unified asynchronous API for use with greenlets or threads
-  * Lock, Party, Election, and Partitioner recipe implementations (more
-    implementations are in development)
+  * A wide range of recipe implementations, like Lock, Election or Queue
   * Data and Children Watchers
-  * Integrated testing helpers for Zookeeper clusters
   * Simplified Zookeeper connection state tracking
+  * Unified asynchronous API for use with greenlets or threads
+  * Support for gevent 0.13 and gevent 1.0
+  * Support for Zookeeper 3.3 and 3.4 servers
+  * Integrated testing helpers for Zookeeper clusters
   * Pure-Python based implementation of the wire protocol, avoiding all the
     memory leaks, lacking features, and debugging madness of the C library
  .
  Kazoo is heavily inspired by Netflix Curator simplifications and helpers.
  .
- This package contains the API documentation.
+ This is the Python 3 version of the package.
