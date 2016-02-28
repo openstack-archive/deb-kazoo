@@ -11,8 +11,8 @@ Build-Depends: debhelper (>= 8),
                python3-setuptools,
                python-gevent,
 Standards-Version: 3.9.6
-Vcs-Browser: http://anonscm.debian.org/gitweb/?p=openstack/kazoo.git
-Vcs-Git: git://anonscm.debian.org/openstack/kazoo.git
+Vcs-Browser: https://anonscm.debian.org/cgit/openstack/kazoo.git/
+Vcs-Git: https://anonscm.debian.org/git/openstack/kazoo.git
 Homepage: https://kazoo.readthedocs.org
 
 Package: python-kazoo
