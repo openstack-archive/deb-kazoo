@@ -1,6 +1,7 @@
 kazoo (2.2.1-2) UNRELEASED; urgency=medium
 
   * Fixed VCS URLs (https).
+  * d/copyright: Inlined Apache-2 license
 
  -- Ondřej Nový <novy@ondrej.org>  Sun, 28 Feb 2016 15:27:04 +0100
 
