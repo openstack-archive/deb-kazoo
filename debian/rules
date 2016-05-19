@@ -3,7 +3,7 @@
 export PYBUILD_NAME=kazoo
 export PYBUILD_DISABLE=test
 
-UPSTREAM_GIT = git://github.com/python-zk/kazoo.git
+UPSTREAM_GIT := https://github.com/python-zk/kazoo.git
 -include /usr/share/openstack-pkg-tools/pkgos.make
 
 %:
