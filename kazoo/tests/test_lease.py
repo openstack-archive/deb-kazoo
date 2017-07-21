@@ -1,9 +1,9 @@
 import datetime
-import uuid
+
 
 from kazoo.recipe.lease import NonBlockingLease
 from kazoo.recipe.lease import MultiNonBlockingLease
-
+from oslo_utils import uuidutils
 from kazoo.testing import KazooTestCase
 
 
@@ -25,7 +25,7 @@ class KazooLeaseTests(KazooTestCase):
         self.client2.start()
         self.client3 = self._get_client(timeout=0.8)
         self.client3.start()
-        self.path = "/" + uuid.uuid4().hex
+        self.path = "/" + uuidutils.generate_uuid(dashed=False)
         self.clock = MockClock(10)
 
     def tearDown(self):

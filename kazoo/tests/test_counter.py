@@ -1,14 +1,14 @@
-import uuid
+
 
 from nose.tools import eq_
 
 from kazoo.testing import KazooTestCase
-
+from oslo_utils import uuidutils
 
 class KazooCounterTests(KazooTestCase):
 
     def _makeOne(self, **kw):
-        path = "/" + uuid.uuid4().hex
+        path = "/" + uuidutils.generate_uuid(dashed=False)
         return self.client.Counter(path, **kw)
 
     def test_int_counter(self):

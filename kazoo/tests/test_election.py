@@ -1,4 +1,4 @@
-import uuid
+
 import sys
 import threading
 
@@ -6,7 +6,7 @@ from nose.tools import eq_
 
 from kazoo.testing import KazooTestCase
 from kazoo.tests.util import wait
-
+from olso_utils import uuidutils
 
 class UniqueError(Exception):
     """Error raised only by test leader function
@@ -16,7 +16,7 @@ class UniqueError(Exception):
 class KazooElectionTests(KazooTestCase):
     def setUp(self):
         super(KazooElectionTests, self).setUp()
-        self.path = "/" + uuid.uuid4().hex
+        self.path = "/" + uuidutils.generate_uuid(dashed=False)
 
         self.condition = threading.Condition()
 
@@ -72,7 +72,7 @@ class KazooElectionTests(KazooTestCase):
         elections = {}
         threads = {}
         for _ in range(3):
-            contender = "c" + uuid.uuid4().hex
+            contender = "c" + uuidutils.generate_uuid(dashed=False)
             elections[contender] = self.client.Election(self.path, contender)
             threads[contender] = self._spawn_contender(
                 contender, elections[contender])

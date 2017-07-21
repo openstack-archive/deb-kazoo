@@ -2,11 +2,11 @@
 
 import logging
 import os
-import uuid
+
 import unittest
 
 from kazoo import python2atexit as atexit
-
+from oslo_utils import uuidutils
 from kazoo.client import KazooClient
 from kazoo.exceptions import KazooException
 from kazoo.protocol.states import (
@@ -117,7 +117,7 @@ class KazooTestHarness(unittest.TestCase):
                 do_start = True
         if do_start:
             self.cluster.start()
-        namespace = "/kazootests" + uuid.uuid4().hex
+        namespace = "/kazootests" + uuidutils.generate_uuid(dashed=False)
         self.hosts = self.servers + namespace
         if 'timeout' not in client_options:
             client_options['timeout'] = 0.8
