@@ -1,6 +1,6 @@
 import collections
 import threading
-import uuid
+
 
 from nose.tools import eq_, ok_
 
@@ -8,7 +8,7 @@ from kazoo.exceptions import CancelledError
 from kazoo.exceptions import LockTimeout
 from kazoo.testing import KazooTestCase
 from kazoo.tests import util as test_util
-
+from oslo_utils import uuidutils
 
 class SleepBarrier(object):
     """A crappy spinning barrier."""
@@ -66,7 +66,7 @@ class KazooLockTests(KazooTestCase):
 
     def setUp(self):
         super(KazooLockTests, self).setUp()
-        self.lockpath = "/" + uuid.uuid4().hex
+        self.lockpath = "/" + uuidutils.generate_uuid(dashed=False)
         self.condition = self.make_condition()
         self.released = self.make_event()
         self.active_thread = None
@@ -93,14 +93,14 @@ class KazooLockTests(KazooTestCase):
                 self.condition.notify_all()
 
     def test_lock_one(self):
-        lock_name = uuid.uuid4().hex
+        lock_name = uuidutils.generate_uuid(dashed=False)
         lock = self.client.Lock(self.lockpath, lock_name)
         event = self.make_event()
         thread = self.make_thread(target=self._thread_lock_acquire_til_event,
                                   args=(lock_name, lock, event))
         thread.start()
 
-        lock2_name = uuid.uuid4().hex
+        lock2_name = uuidutils.generate_uuid(dashed=False)
         anotherlock = self.client.Lock(self.lockpath, lock2_name)
 
         # wait for any contender to show up on the lock
@@ -202,7 +202,7 @@ class KazooLockTests(KazooTestCase):
         thread.join()
 
     def test_lock_non_blocking(self):
-        lock_name = uuid.uuid4().hex
+        lock_name = uuidutils.generate_uuid(dashed=False)
         lock = self.client.Lock(self.lockpath, lock_name)
         event = self.make_event()
 
@@ -469,7 +469,7 @@ class TestSemaphore(KazooTestCase):
 
     def setUp(self):
         super(TestSemaphore, self).setUp()
-        self.lockpath = "/" + uuid.uuid4().hex
+        self.lockpath = "/" + uuidutils.generate_uuid(dashed=False)
         self.condition = self.make_condition()
         self.released = self.make_event()
         self.active_thread = None

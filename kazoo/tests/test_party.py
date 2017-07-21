@@ -1,14 +1,14 @@
-import uuid
+
 
 from nose.tools import eq_
 
 from kazoo.testing import KazooTestCase
-
+from oslo_utils import uuidutils
 
 class KazooPartyTests(KazooTestCase):
     def setUp(self):
         super(KazooPartyTests, self).setUp()
-        self.path = "/" + uuid.uuid4().hex
+        self.path = "/" + uuidutils.generate_uuid(dashed=False)
 
     def test_party(self):
         parties = [self.client.Party(self.path, "p%s" % i)
@@ -57,7 +57,7 @@ class KazooPartyTests(KazooTestCase):
 class KazooShallowPartyTests(KazooTestCase):
     def setUp(self):
         super(KazooShallowPartyTests, self).setUp()
-        self.path = "/" + uuid.uuid4().hex
+        self.path = "/" + uuidutils.generate_uuid(dashed=False)
 
     def test_party(self):
         parties = [self.client.ShallowParty(self.path, "p%s" % i)

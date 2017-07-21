@@ -1,6 +1,6 @@
 import time
 import threading
-import uuid
+
 
 from nose.tools import eq_
 from nose.tools import raises
@@ -8,12 +8,12 @@ from nose.tools import raises
 from kazoo.exceptions import KazooException
 from kazoo.protocol.states import EventType
 from kazoo.testing import KazooTestCase
-
+from oslo_utils import uuidutils
 
 class KazooDataWatcherTests(KazooTestCase):
     def setUp(self):
         super(KazooDataWatcherTests, self).setUp()
-        self.path = "/" + uuid.uuid4().hex
+        self.path = "/" + uuidutils.generate_uuid(dashed=False)
         self.client.ensure_path(self.path)
 
     def test_data_watcher(self):
@@ -294,7 +294,7 @@ class KazooDataWatcherTests(KazooTestCase):
 class KazooChildrenWatcherTests(KazooTestCase):
     def setUp(self):
         super(KazooChildrenWatcherTests, self).setUp()
-        self.path = "/" + uuid.uuid4().hex
+        self.path = "/" + uuidutils.generate_uuid(dashed=False)
         self.client.ensure_path(self.path)
 
     def test_child_watcher(self):
@@ -490,7 +490,7 @@ class KazooChildrenWatcherTests(KazooTestCase):
 class KazooPatientChildrenWatcherTests(KazooTestCase):
     def setUp(self):
         super(KazooPatientChildrenWatcherTests, self).setUp()
-        self.path = "/" + uuid.uuid4().hex
+        self.path = "/" + uuidutils.generate_uuid(dashed=False)
 
     def _makeOne(self, *args, **kwargs):
         from kazoo.recipe.watchers import PatientChildrenWatch
@@ -525,11 +525,11 @@ class KazooPatientChildrenWatcherTests(KazooTestCase):
         eq_(result.ready(), False)
 
         time.sleep(0.08)
-        self.client.create(self.path + '/' + uuid.uuid4().hex)
+        self.client.create(self.path + '/' + uuidutils.generate_uuid(dashed=False)
         eq_(result.ready(), False)
         time.sleep(0.08)
         eq_(result.ready(), False)
-        self.client.create(self.path + '/' + uuid.uuid4().hex)
+        self.client.create(self.path + '/' + uuidutils.generate_uuid(dashed=False)
         time.sleep(0.08)
         eq_(result.ready(), False)
 

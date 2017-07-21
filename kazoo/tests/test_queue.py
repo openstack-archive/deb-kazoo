@@ -1,16 +1,16 @@
-import uuid
+
 
 from nose import SkipTest
 from nose.tools import eq_, ok_
 
 from kazoo.testing import KazooTestCase
 from kazoo.tests.util import TRAVIS_ZK_VERSION
-
+from oslo_utils import uuiduits
 
 class KazooQueueTests(KazooTestCase):
 
     def _makeOne(self):
-        path = "/" + uuid.uuid4().hex
+        path = "/" + uuidutils.generate_uuid(dashed=False)
         return self.client.Queue(path)
 
     def test_queue_validation(self):
@@ -69,7 +69,7 @@ class KazooLockingQueueTests(KazooTestCase):
             raise SkipTest("Must use Zookeeper 3.4 or above")
 
     def _makeOne(self):
-        path = "/" + uuid.uuid4().hex
+        path = "/" + uuidutils.generate_uuid(dashed=False)
         return self.client.LockingQueue(path)
 
     def test_queue_validation(self):

@@ -1,4 +1,4 @@
-import uuid
+
 import threading
 import time
 
@@ -8,7 +8,7 @@ from nose.tools import eq_
 from kazoo.exceptions import LockTimeout
 from kazoo.testing import KazooTestCase
 from kazoo.recipe.partitioner import PartitionState
-
+from osloutils import uuidutils
 
 class SlowLockMock():
     """Emulates a slow ZooKeeper lock."""
@@ -49,7 +49,7 @@ class KazooPartitionerTests(KazooTestCase):
 
     def setUp(self):
         super(KazooPartitionerTests, self).setUp()
-        self.path = "/" + uuid.uuid4().hex
+        self.path = "/" + uuidutils.generate_uuid(dashed=False)
         self.__partitioners = []
 
     def test_party_of_one(self):

@@ -2,12 +2,13 @@ import socket
 import sys
 import threading
 import time
-import uuid
+
 import unittest
 
 import mock
 from mock import patch
 from nose import SkipTest
+from oslo_utils import uuidutils
 from nose.tools import eq_
 from nose.tools import raises
 
@@ -129,8 +130,8 @@ class TestAuthentication(KazooTestCase):
         return make_digest_acl(*args, **kwargs)
 
     def test_auth(self):
-        username = uuid.uuid4().hex
-        password = uuid.uuid4().hex
+        username = uuidutils.generate_uuid(dashed=False)
+        password = uuidutils.generate_uuid(dashed=False)
 
         digest_auth = "%s:%s" % (username, password)
         acl = self._makeAuth(username, password, all=True)
@@ -161,8 +162,8 @@ class TestAuthentication(KazooTestCase):
             eve.close()
 
     def test_connect_auth(self):
-        username = uuid.uuid4().hex
-        password = uuid.uuid4().hex
+        username = uuidutils.generate_uuid(dashed=False)
+        password = uuidutils.generate_uuid(dshed=False)
 
         digest_auth = "%s:%s" % (username, password)
         acl = self._makeAuth(username, password, all=True)
@@ -220,8 +221,8 @@ class TestAuthentication(KazooTestCase):
     def test_async_auth(self):
         client = self._get_client()
         client.start()
-        username = uuid.uuid4().hex
-        password = uuid.uuid4().hex
+        username = uuidutils.generate_uuid(dashed=False)
+        password = uuidutils.generate_uuid(dashed=False)
         digest_auth = "%s:%s" % (username, password)
         result = client.add_auth_async("digest", digest_auth)
         self.assertTrue(result.get())
@@ -229,8 +230,8 @@ class TestAuthentication(KazooTestCase):
     def test_async_auth_failure(self):
         client = self._get_client()
         client.start()
-        username = uuid.uuid4().hex
-        password = uuid.uuid4().hex
+        username = uuidutils.generate_uuid(dashed=False)
+        password = uuidutils.generate_uuid(dashed=False)
         digest_auth = "%s:%s" % (username, password)
 
         self.assertRaises(AuthFailedError, client.add_auth,
@@ -622,7 +623,7 @@ class TestClient(KazooTestCase):
         eq_(path3, "/folder/0000000002")
 
     def test_create_ephemeral_sequence(self):
-        basepath = "/" + uuid.uuid4().hex
+        basepath = "/" + uuidutils.generate_uuid(dashed=False)
         realpath = self.client.create(basepath, b"sandwich",
                                       sequence=True, ephemeral=True)
         self.assertTrue(basepath != realpath and realpath.startswith(basepath))
@@ -676,7 +677,7 @@ class TestClient(KazooTestCase):
         self.assertRaises(NodeExistsError, client.create, path)
 
     def test_create_get_set(self):
-        nodepath = "/" + uuid.uuid4().hex
+        nodepath = "/" + uuidutils.generate_uuid(dashed=False)
 
         self.client.create(nodepath, b"sandwich", ephemeral=True)
 
@@ -721,7 +722,7 @@ class TestClient(KazooTestCase):
         self.assertTrue(client.sync('/'), '/')
 
     def test_exists(self):
-        nodepath = "/" + uuid.uuid4().hex
+        nodepath = "/" + uuidutils.generate_uuid(dashed=False)
 
         exists = self.client.exists(nodepath)
         eq_(exists, None)
@@ -731,7 +732,7 @@ class TestClient(KazooTestCase):
         self.assertTrue(exists)
         assert isinstance(exists.version, int)
 
-        multi_node_nonexistent = "/" + uuid.uuid4().hex + "/hats"
+        multi_node_nonexistent = "/" + uuidutils.generate_uuid(dashed=False) + "/hats"
         exists = self.client.exists(multi_node_nonexistent)
         eq_(exists, None)
 
@@ -741,7 +742,7 @@ class TestClient(KazooTestCase):
         self.assertRaises(TypeError, client.exists, 'a', watch=True)
 
     def test_exists_watch(self):
-        nodepath = "/" + uuid.uuid4().hex
+        nodepath = "/" + uuidutils.generate_uuid(dashed=False)
         event = self.client.handler.event_object()
 
         def w(watch_event):
@@ -757,7 +758,7 @@ class TestClient(KazooTestCase):
         self.assertTrue(event.is_set())
 
     def test_exists_watcher_exception(self):
-        nodepath = "/" + uuid.uuid4().hex
+        nodepath = "/" + uuidutils.generate_uuid(dashed=Falseutils.generate_uuid(dashed=False))
         event = self.client.handler.event_object()
 
         # if the watcher throws an exception, all we can really do is log it
@@ -776,7 +777,7 @@ class TestClient(KazooTestCase):
         self.assertTrue(event.is_set())
 
     def test_create_delete(self):
-        nodepath = "/" + uuid.uuid4().hex
+        nodepath = "/" + uuidutils.generate_uuid(dashed=False)
 
         self.client.create(nodepath, b"zzz")
 
@@ -1012,8 +1013,8 @@ class TestClientTransactions(KazooTestCase):
 
     def test_default_acl(self):
         from kazoo.security import make_digest_acl
-        username = uuid.uuid4().hex
-        password = uuid.uuid4().hex
+        username = uuidutils.generate_uuid(dashed=False)
+        password = uuidutils.generate_uuid(dashed=False)
 
         digest_auth = "%s:%s" % (username, password)
         acl = make_digest_acl(username, password, all=True)
@@ -1153,7 +1154,7 @@ class TestNonChrootClient(KazooTestCase):
         client = self._get_nonchroot_client()
         self.assertEqual(client.chroot, '')
         client.start()
-        node = uuid.uuid4().hex
+        node = uuidutils.generate_uuid(dashed=False)
         path = client.create(node, ephemeral=True)
         client.delete(path)
         client.stop()
