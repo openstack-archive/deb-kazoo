@@ -1,4 +1,4 @@
-import uuid
+
 
 from mock import patch, call, Mock
 from nose.tools import eq_, ok_, assert_not_equal, raises
@@ -6,7 +6,7 @@ from nose.tools import eq_, ok_, assert_not_equal, raises
 from kazoo.testing import KazooTestCase
 from kazoo.exceptions import KazooException
 from kazoo.recipe.cache import TreeCache, TreeNode, TreeEvent
-
+from oslo_utils import uuidutils
 
 class KazooTreeCacheTests(KazooTestCase):
 
@@ -27,7 +27,7 @@ class KazooTreeCacheTests(KazooTestCase):
 
     def make_cache(self):
         if self.cache is None:
-            self.path = '/' + uuid.uuid4().hex
+            self.path = '/' + uuidutils.generate_uuid(dashed=False)
             self.cache = TreeCache(self.client, self.path)
             self.cache.listen(lambda event: self._event_queue.put(event))
             self.cache.listen_fault(lambda error: self._error_queue.put(error))

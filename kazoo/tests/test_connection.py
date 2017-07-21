@@ -2,11 +2,12 @@ from collections import namedtuple, deque
 import os
 import threading
 import time
-import uuid
+
 import struct
 import sys
 
 from nose import SkipTest
+from oslo_utils import uuidutils
 from nose.tools import eq_
 from nose.tools import raises
 import mock
@@ -70,7 +71,7 @@ class TestConnectionHandler(KazooTestCase):
     def test_connection_read_timeout(self):
         client = self.client
         ev = threading.Event()
-        path = "/" + uuid.uuid4().hex
+        path = "/" + uuidutils.generate_uuid(dashed=False)
         handler = client.handler
         _select = handler.select
         _socket = client._connection._socket
@@ -101,7 +102,7 @@ class TestConnectionHandler(KazooTestCase):
     def test_connection_write_timeout(self):
         client = self.client
         ev = threading.Event()
-        path = "/" + uuid.uuid4().hex
+        path = "/" + uuidutils.generate_uuid(dashed=False)
         handler = client.handler
         _select = handler.select
         _socket = client._connection._socket
@@ -131,7 +132,7 @@ class TestConnectionHandler(KazooTestCase):
     def test_connection_deserialize_fail(self):
         client = self.client
         ev = threading.Event()
-        path = "/" + uuid.uuid4().hex
+        path = "/" + uuidutils.generate_uuid(dashed=False)
         handler = client.handler
         _select = handler.select
         _socket = client._connection._socket
@@ -239,7 +240,7 @@ class TestConnectionDrop(KazooTestCase):
                 ev.set()
 
         # create a node with a large value and stop the ZK node
-        path = "/" + uuid.uuid4().hex
+        path = "/" + uuidutils.generate_uuid(dashed=False)
         self.client.create(path)
         self.client.add_listener(back)
         result = self.client.set_async(path, b'a' * 1000 * 1024)
